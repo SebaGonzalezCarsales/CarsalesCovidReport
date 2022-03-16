@@ -14,6 +14,7 @@ import com.gonzalezcs.coviddatemvvm.MyAppApplication
 import com.gonzalezcs.coviddatemvvm.OwnFunctions
 import com.gonzalezcs.coviddatemvvm.R
 import com.gonzalezcs.coviddatemvvm.databinding.ActivityMainBinding
+import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
 import com.gonzalezcs.coviddatemvvm.ui.viewmodel.CovidDateViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,13 +55,13 @@ class MainActivity : AppCompatActivity(){
         setFechaText(calendar)
 
         //loading visible until first load (day-1)
-        covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
+        //covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
         covidDateViewModel.getCovidByDate(OwnFunctions().fixDateCalendar(year,month,day))
 
         binding.btnDate.setOnClickListener {
-            covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
+            //covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
             val datepicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
-                covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
+               // covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
                 covidDateViewModel.getCovidByDate(OwnFunctions().fixDateCalendar(y,m,d))
                 val calen : Calendar = Calendar.getInstance()
                 calen.set(y,m,d)
@@ -89,6 +90,30 @@ class MainActivity : AppCompatActivity(){
         //covidDateViewModel = ViewModelProvider(this)[CovidDateViewModel::class.java]
 
         //change the visibility of the appLoading
+
+
+        covidDateViewModel.covidStateViewLiveData.observe(this, androidx.lifecycle.Observer {
+
+
+            when (it){
+                is StateView.Error -> {
+
+
+                }
+                is StateView.Loading -> {
+
+
+                }
+                is StateView.Success -> {
+
+
+                }
+            }
+        })
+
+
+
+
         covidDateViewModel.appLoadingLiveData.observe(this) {
             val alpha = if(it==View.GONE) 0.0f else 1.0f
             OwnFunctions().animationVisibleGone(binding.appLoading.layout,it,alpha,400)
