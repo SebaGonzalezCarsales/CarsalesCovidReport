@@ -13,10 +13,10 @@ import com.gonzalezcs.coviddatemvvm.MyAppApplication
 import com.gonzalezcs.coviddatemvvm.ui.utils.AnimationViewClass
 import com.gonzalezcs.coviddatemvvm.ui.utils.ValueFormatClass
 import com.gonzalezcs.coviddatemvvm.R
+import com.gonzalezcs.coviddatemvvm.data.model.DataCovidModel
 import com.gonzalezcs.coviddatemvvm.databinding.ActivityMainBinding
 import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
 import com.gonzalezcs.coviddatemvvm.ui.viewmodel.CovidDateViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity(){
 
     // You want Dagger to provide an instance of LoginViewModel from the graph
     @Inject lateinit var covidDateViewModel: CovidDateViewModel
-
     private lateinit var binding: ActivityMainBinding
+    private val calendarInstance = ValueFormatClass().getCalendarInstance(null)
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity(){
         //contains all the observers in the activity
         observersActivity()
 
-        val calendarInstance = ValueFormatClass().getCalendarInstance()
         binding.tvFecha.text = calendarInstance.stringDate
 
         //loading visible until first load (day-1)
@@ -53,21 +52,13 @@ class MainActivity : AppCompatActivity(){
         binding.btnDate.setOnClickListener {
             val datepicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
                 covidDateViewModel.getCovidByDate(ValueFormatClass().setCalendarFormat(y,m,d))
-                /*
-                val calen : Calendar = Calendar.getInstance()
-                calen.set(y,m,d)
-                setFechaText(calen)
-                 */
+
+
                 calendarInstance.year = y
                 calendarInstance.month = m
                 calendarInstance.day = d
             }, calendarInstance.year, calendarInstance.month, calendarInstance.day)
             datepicker.show()
-
-            //cancel button loadingBackground hide
-            datepicker.setOnCancelListener(DialogInterface.OnCancelListener {
-                covidDateViewModel.appLoadingLiveData.postValue(View.GONE)
-            })
 
         }
     }
@@ -76,51 +67,56 @@ class MainActivity : AppCompatActivity(){
         covidDateViewModel.covidStateViewLiveData.observe(this, androidx.lifecycle.Observer {
             when (it){
                 is StateView.Error -> {
-
-
+                    AnimationViewClass().setViewAnimationVisibility(
+                        binding.appLoading.layout,
+                        View.GONE,
+                        0.0f ,
+                        400)
+                    Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
                 }
                 is StateView.Loading -> {
-
-
+                    AnimationViewClass().setViewAnimationVisibility(
+                        binding.appLoading.layout,
+                        it.visibility,
+                        if(it.visibility==View.GONE) 0.0f else 1.0f,
+                        400)
                 }
                 is StateView.Success -> {
 
+                    AnimationViewClass().setViewAnimationVisibility(
+                        binding.appLoading.layout,
+                        View.GONE,
+                        0.0f ,
+                        400)
+
+                    bindingCovidElements(it.data)
                 }
             }
         })
 
-        covidDateViewModel.appLoadingLiveData.observe(this) {
-            AnimationViewClass().setViewAnimationVisibility(
-                binding.appLoading.layout,
-                it,
-                if(it==View.GONE) 0.0f else 1.0f,
-                400)
+    }
+
+    private fun bindingCovidElements(covidDateModel:DataCovidModel?){
+        covidDateModel?.let {
+
+            binding.tvFecha.text = ValueFormatClass().getCalendarInstance(ValueFormatClass.FormatCalendarObject(calendarInstance.year,calendarInstance.month,calendarInstance.day,"")).stringDate
+
+            binding.tvFecha.visibility = View.VISIBLE
+
+            binding.tvCasosConfirmados.text = String.format("%s: %s",getString(R.string.casos_confirmados),it.confirmed.toString())
+            binding.tvCasosConfirmados.visibility = View.VISIBLE
+
+            binding.tvCantidadFallecidos.text =String.format("%s: %s",getString(R.string.cantidad_de_personas_fallecidas),it.deaths.toString())
+            binding.tvCantidadFallecidos.visibility = View.VISIBLE
+
+            binding.imgBlack1.visibility = View.VISIBLE
+            binding.imgBlack2.visibility = View.VISIBLE
+            binding.btnDate.visibility = View.VISIBLE
+            binding.imageView3.visibility = View.VISIBLE
+
+
+        }?: run {
+            Toast.makeText(this@MainActivity,"Fecha sin datos", Toast.LENGTH_LONG)
         }
-        //change the values of the textViews
-        covidDateViewModel.covidDateLiveData.observe(this, androidx.lifecycle.Observer { covidDateModel ->
-
-            covidDateViewModel.appLoadingLiveData.postValue(View.GONE)
-            covidDateModel?.let {
-
-                binding.tvFecha.visibility = View.GONE
-                binding.tvCasosConfirmados.visibility = View.GONE
-                binding.tvCantidadFallecidos.visibility = View.GONE
-
-                binding.tvFecha.visibility = View.VISIBLE
-                binding.tvFecha.animation = AnimationUtils.loadAnimation(this, R.anim.item_animation_fall_down)
-
-                binding.tvCasosConfirmados.text = String.format("%s: %s",getString(R.string.casos_confirmados),it.confirmed.toString())
-                binding.tvCasosConfirmados.visibility = View.VISIBLE
-                binding.tvCasosConfirmados.animation = AnimationUtils.loadAnimation(this, R.anim.item_animation_fall_down)
-
-                binding.tvCantidadFallecidos.text =String.format("%s: %s",getString(R.string.cantidad_de_personas_fallecidas),it.deaths.toString())
-                binding.tvCantidadFallecidos.visibility = View.VISIBLE
-                binding.tvCantidadFallecidos.animation = AnimationUtils.loadAnimation(this, R.anim.item_animation_fall_down)
-
-            }?: run {
-                Toast.makeText(this@MainActivity,"Fecha sin datos", Toast.LENGTH_LONG)
-            }
-
-        })
     }
 }

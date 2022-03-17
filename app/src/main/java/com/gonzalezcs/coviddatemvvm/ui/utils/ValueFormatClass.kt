@@ -31,17 +31,20 @@ class ValueFormatClass {
     * @Function: getCalendarInstance
     * @Return: FormatCalendarObject<year, month, day, currentStringDate>
     * */
-    fun getCalendarInstance(): FormatCalendarObject{
+    fun getCalendarInstance(formateCalendarObject: FormatCalendarObject?): FormatCalendarObject{
         val calendar = Calendar.getInstance()
 
-        var year = calendar.get(Calendar.YEAR)
-        var month = calendar.get(Calendar.MONTH)
-        var day = calendar.get(Calendar.DAY_OF_MONTH)-1 //get yesterday from current date
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        var day = calendar.get(Calendar.DAY_OF_MONTH) //get yesterday from current date
 
-        calendar.add(Calendar.DAY_OF_MONTH,-1)
+        if (formateCalendarObject != null) {
+            calendar.set(formateCalendarObject.year,formateCalendarObject.month,formateCalendarObject.day)
+        }else{
+            day = calendar.get(Calendar.DAY_OF_MONTH)-1 //get yesterday from current date
+        }
 
-        val simpleDate = SimpleDateFormat("d 'de' MMMM 'del' yyyy")
-        var currentStringDate = simpleDate.format(calendar.time)
+        val currentStringDate = getDateFormatString(calendar,"d 'de' MMMM 'del' yyyy")
 
         return FormatCalendarObject(
             year,
@@ -50,4 +53,16 @@ class ValueFormatClass {
             currentStringDate
         )
     }
+
+    /*
+    * @Function: getDateFormatString
+    * @Param: calendar (Calendar)
+    * @Param: format (String)
+    * @Return: String with date formated
+    * */
+    fun getDateFormatString(calendar: Calendar,format:String):String{
+        return SimpleDateFormat(format).format(calendar.time)
+    }
+
+
 }

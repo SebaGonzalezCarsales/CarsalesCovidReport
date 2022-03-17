@@ -17,8 +17,13 @@ class CovidDateService @Inject constructor(private val covidDateClient: CovidDat
     suspend fun getCovidData(date:String): DataCovidModel? {
         //thread secundary not interface
        return withContext(Dispatchers.IO){
-           val response = covidDateClient.getApi(HEADER,date)
-           response.body()?.data
+           return@withContext try {
+               val response = covidDateClient.getApi(HEADER,date)
+               response.body()?.data
+           } catch (e:Throwable){
+               null
+           }
+
         }
     }
 }
