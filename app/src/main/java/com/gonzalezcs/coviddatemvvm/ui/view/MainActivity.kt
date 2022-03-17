@@ -9,9 +9,9 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import com.gonzalezcs.coviddatemvvm.MyAppApplication
-import com.gonzalezcs.coviddatemvvm.OwnFunctions
+import com.gonzalezcs.coviddatemvvm.ui.utils.AnimationViewClass
+import com.gonzalezcs.coviddatemvvm.ui.utils.ValueFormatClass
 import com.gonzalezcs.coviddatemvvm.R
 import com.gonzalezcs.coviddatemvvm.databinding.ActivityMainBinding
 import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
@@ -38,38 +38,30 @@ class MainActivity : AppCompatActivity(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         //contains all the observers in the activity
         observersActivity()
 
-        //first date oncreate
-        val calendar = Calendar.getInstance()
-
-        //get year,month and day
-        var year = calendar.get(Calendar.YEAR)
-        var month = calendar.get(Calendar.MONTH)
-        var day = calendar.get(Calendar.DAY_OF_MONTH)-1
-
-        calendar.add(Calendar.DAY_OF_MONTH,-1)
-
-        setFechaText(calendar)
+        val calendarInstance = ValueFormatClass().getCalendarInstance()
+        binding.tvFecha.text = calendarInstance.stringDate
 
         //loading visible until first load (day-1)
-        //covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
-        covidDateViewModel.getCovidByDate(OwnFunctions().fixDateCalendar(year,month,day))
-
+        covidDateViewModel.getCovidByDate(ValueFormatClass().setCalendarFormat(
+            calendarInstance.year,
+            calendarInstance.month,
+            calendarInstance.day)
+        )
         binding.btnDate.setOnClickListener {
-            //covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
             val datepicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
-               // covidDateViewModel.appLoadingLiveData.postValue(View.VISIBLE)
-                covidDateViewModel.getCovidByDate(OwnFunctions().fixDateCalendar(y,m,d))
+                covidDateViewModel.getCovidByDate(ValueFormatClass().setCalendarFormat(y,m,d))
+                /*
                 val calen : Calendar = Calendar.getInstance()
                 calen.set(y,m,d)
                 setFechaText(calen)
-                year = y
-                month = m
-                day = d
-            }, year, month, day)
+                 */
+                calendarInstance.year = y
+                calendarInstance.month = m
+                calendarInstance.day = d
+            }, calendarInstance.year, calendarInstance.month, calendarInstance.day)
             datepicker.show()
 
             //cancel button loadingBackground hide
@@ -80,21 +72,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun setFechaText(calendar:Calendar){
-        val simpleDate = SimpleDateFormat("d 'de' MMMM 'del' yyyy")
-        binding.tvFecha.text = simpleDate.format(calendar.time)
-
-    }
-
     private fun observersActivity(){
-        //covidDateViewModel = ViewModelProvider(this)[CovidDateViewModel::class.java]
-
-        //change the visibility of the appLoading
-
-
         covidDateViewModel.covidStateViewLiveData.observe(this, androidx.lifecycle.Observer {
-
-
             when (it){
                 is StateView.Error -> {
 
@@ -106,19 +85,17 @@ class MainActivity : AppCompatActivity(){
                 }
                 is StateView.Success -> {
 
-
                 }
             }
         })
 
-
-
-
         covidDateViewModel.appLoadingLiveData.observe(this) {
-            val alpha = if(it==View.GONE) 0.0f else 1.0f
-            OwnFunctions().animationVisibleGone(binding.appLoading.layout,it,alpha,400)
+            AnimationViewClass().setViewAnimationVisibility(
+                binding.appLoading.layout,
+                it,
+                if(it==View.GONE) 0.0f else 1.0f,
+                400)
         }
-
         //change the values of the textViews
         covidDateViewModel.covidDateLiveData.observe(this, androidx.lifecycle.Observer { covidDateModel ->
 

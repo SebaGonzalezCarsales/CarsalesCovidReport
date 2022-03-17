@@ -1,0 +1,53 @@
+package com.gonzalezcs.coviddatemvvm.ui.utils
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.Int as Int1
+
+/*
+This class contains all the functions for string, int or any other value demanded
+* */
+class ValueFormatClass {
+
+    data class FormatCalendarObject(
+        var year: Int1,
+        var month: Int1,
+        var day: Int1,
+        var stringDate: String)
+
+    /*
+    * @Function: ValueFormatClass
+    * @Param: year (Int)
+    * @Param: month (Int)
+    * @Param: day (Int)
+    * @Return: String (fixed date)
+    * */
+    fun setCalendarFormat(year: Int1, month: Int1, day: Int1) : String{
+        val fixedMonth = if (month < 10) "0"+(month+1).toString() else (month+1).toString()
+        val fixedDay = if (day < 10) "0"+(day).toString() else (day).toString()
+        return "$year-$fixedMonth-$fixedDay"
+    }
+
+    /*
+    * @Function: getCalendarInstance
+    * @Return: FormatCalendarObject<year, month, day, currentStringDate>
+    * */
+    fun getCalendarInstance(): FormatCalendarObject{
+        val calendar = Calendar.getInstance()
+
+        var year = calendar.get(Calendar.YEAR)
+        var month = calendar.get(Calendar.MONTH)
+        var day = calendar.get(Calendar.DAY_OF_MONTH)-1 //get yesterday from current date
+
+        calendar.add(Calendar.DAY_OF_MONTH,-1)
+
+        val simpleDate = SimpleDateFormat("d 'de' MMMM 'del' yyyy")
+        var currentStringDate = simpleDate.format(calendar.time)
+
+        return FormatCalendarObject(
+            year,
+            month,
+            day,
+            currentStringDate
+        )
+    }
+}
