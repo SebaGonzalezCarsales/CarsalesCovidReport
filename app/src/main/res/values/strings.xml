@@ -2,6 +2,6 @@
     <string name="app_name">Covid Report</string>
 
     <string name="casos_confirmados">Casos confirmados</string>
-    <string name="cantidad_de_personas_fallecidas">Cantidad de personas fallecidas</string>
+    <string name="cantidad_de_personas_fallecidas">Cantidad de fallecidos</string>
     <string name="seleccione_una_fecha">Seleccione una fecha</string>
 </resources>

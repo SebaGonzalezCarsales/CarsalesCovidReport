@@ -17,6 +17,7 @@ import com.gonzalezcs.coviddatemvvm.data.model.DataCovidModel
 import com.gonzalezcs.coviddatemvvm.databinding.ActivityMainBinding
 import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
 import com.gonzalezcs.coviddatemvvm.ui.viewmodel.CovidDateViewModel
+import java.text.NumberFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -103,10 +104,10 @@ class MainActivity : AppCompatActivity(){
 
             binding.tvFecha.visibility = View.VISIBLE
 
-            binding.tvCasosConfirmados.text = String.format("%s: %s",getString(R.string.casos_confirmados),it.confirmed.toString())
+            binding.tvCasosConfirmados.text = String.format("%s: %s",getString(R.string.casos_confirmados),NumberFormat.getInstance().format(it.confirmed))
             binding.tvCasosConfirmados.visibility = View.VISIBLE
 
-            binding.tvCantidadFallecidos.text =String.format("%s: %s",getString(R.string.cantidad_de_personas_fallecidas),it.deaths.toString())
+            binding.tvCantidadFallecidos.text =String.format("%s: %s",getString(R.string.cantidad_de_personas_fallecidas),NumberFormat.getInstance().format(it.deaths))
             binding.tvCantidadFallecidos.visibility = View.VISIBLE
 
             binding.imgBlack1.visibility = View.VISIBLE
