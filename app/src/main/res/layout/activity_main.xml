@@ -100,7 +100,7 @@
         android:id="@+id/btn_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/seleccione_una_fecha"
+        android:text="@string/select_date"
         android:textColor="@color/black"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/app_loading"

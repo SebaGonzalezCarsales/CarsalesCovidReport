@@ -92,10 +92,10 @@ class MainActivity : AppCompatActivity(){
 
             binding.tvFecha.visibility = View.VISIBLE
 
-            binding.tvCasosConfirmados.text = String.format("%s: %s",getString(R.string.casos_confirmados),NumberFormat.getInstance().format(it.confirmed))
+            binding.tvCasosConfirmados.text = String.format("%s: %s",getString(R.string.confirmed_cases),NumberFormat.getInstance().format(it.confirmed))
             binding.tvCasosConfirmados.visibility = View.VISIBLE
 
-            binding.tvCantidadFallecidos.text =String.format("%s: %s",getString(R.string.cantidad_de_personas_fallecidas),NumberFormat.getInstance().format(it.deaths))
+            binding.tvCantidadFallecidos.text =String.format("%s: %s",getString(R.string.confirmed_deaths),NumberFormat.getInstance().format(it.deaths))
             binding.tvCantidadFallecidos.visibility = View.VISIBLE
 
             binding.imgBlack1.visibility = View.VISIBLE
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(){
 
 
         }?: run {
-            Toast.makeText(this@MainActivity,"Fecha sin datos", Toast.LENGTH_LONG)
+            Toast.makeText(this@MainActivity,getString(R.string.info_not_available), Toast.LENGTH_LONG)
         }
     }
 }
