@@ -1,12 +1,10 @@
 package com.gonzalezcs.coviddatemvvm.ui.view
 
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.gonzalezcs.coviddatemvvm.MyAppApplication
@@ -18,17 +16,13 @@ import com.gonzalezcs.coviddatemvvm.databinding.ActivityMainBinding
 import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
 import com.gonzalezcs.coviddatemvvm.ui.viewmodel.CovidDateViewModel
 import java.text.NumberFormat
-import java.util.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(){
-
-
     // You want Dagger to provide an instance of LoginViewModel from the graph
     @Inject lateinit var covidDateViewModel: CovidDateViewModel
     private lateinit var binding: ActivityMainBinding
     private val calendarInstance = ValueFormatClass().getCalendarInstance(null)
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +35,6 @@ class MainActivity : AppCompatActivity(){
 
         //contains all the observers in the activity
         observersActivity()
-
         binding.tvFecha.text = calendarInstance.stringDate
 
         //loading visible until first load (day-1)
@@ -53,14 +46,11 @@ class MainActivity : AppCompatActivity(){
         binding.btnDate.setOnClickListener {
             val datepicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
                 covidDateViewModel.getCovidByDate(ValueFormatClass().setCalendarFormat(y,m,d))
-
-
                 calendarInstance.year = y
                 calendarInstance.month = m
                 calendarInstance.day = d
             }, calendarInstance.year, calendarInstance.month, calendarInstance.day)
             datepicker.show()
-
         }
     }
 
@@ -83,7 +73,6 @@ class MainActivity : AppCompatActivity(){
                         400)
                 }
                 is StateView.Success -> {
-
                     AnimationViewClass().setViewAnimationVisibility(
                         binding.appLoading.layout,
                         View.GONE,
@@ -94,7 +83,6 @@ class MainActivity : AppCompatActivity(){
                 }
             }
         })
-
     }
 
     private fun bindingCovidElements(covidDateModel:DataCovidModel?){

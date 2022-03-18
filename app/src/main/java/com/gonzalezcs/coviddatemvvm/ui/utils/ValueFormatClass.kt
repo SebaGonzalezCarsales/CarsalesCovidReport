@@ -13,7 +13,6 @@ class ValueFormatClass {
         var month: Int1,
         var day: Int1,
         var stringDate: String)
-
     /*
     * @Function: ValueFormatClass
     * @Param: year (Int)
@@ -26,7 +25,6 @@ class ValueFormatClass {
         val fixedDay = if (day < 10) "0"+(day).toString() else (day).toString()
         return "$year-$fixedMonth-$fixedDay"
     }
-
     /*
     * @Function: getCalendarInstance
     * @Return: FormatCalendarObject<year, month, day, currentStringDate>
@@ -53,7 +51,6 @@ class ValueFormatClass {
             currentStringDate
         )
     }
-
     /*
     * @Function: getDateFormatString
     * @Param: calendar (Calendar)
@@ -63,6 +60,4 @@ class ValueFormatClass {
     fun getDateFormatString(calendar: Calendar,format:String):String{
         return SimpleDateFormat(format).format(calendar.time)
     }
-
-
 }

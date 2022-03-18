@@ -6,8 +6,7 @@ import javax.inject.Inject
 
 
 class GetCovidByDateUseCase @Inject constructor(private val covidDateRepository: CovidDateRepository){
-
-        suspend fun getCovidByDate(date:String): DataCovidModel?{
-            return covidDateRepository.getRepoCovidByDate(date)
-        }
+    suspend fun getCovidByDate(date:String): DataCovidModel?{
+        return covidDateRepository.getRepoCovidByDate(date)
+    }
 }

@@ -1,7 +1,5 @@
 package com.gonzalezcs.coviddatemvvm.di
 
-import android.content.Context
-import com.gonzalezcs.coviddatemvvm.data.model.network.database.DatabaseApp
 import com.gonzalezcs.coviddatemvvm.data.network.CovidDateClient
 import dagger.Module
 import dagger.Provides
@@ -17,18 +15,6 @@ class ApplicationModule {
 
     private val base_url = "https://covid-19-statistics.p.rapidapi.com/"
 
-    // le indicamos a dagger como crear la instancia de servicios de librerias
-    // estos se proveen al proyecto cuandos se requieren
-    // singleton : unica instancia y no se vuelve a crear
-    // use provide como prefijo
-    //
-
-    @Provides
-    @Singleton
-    fun provideDatabase(context: Context): DatabaseApp{
-        return DatabaseApp(context)
-    }
-
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
@@ -38,7 +24,6 @@ class ApplicationModule {
             .client(okhttpClient)
             .build()
     }
-
 
     @Singleton
     @Provides

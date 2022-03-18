@@ -12,7 +12,6 @@ import kotlin.concurrent.thread
 class CovidDateService @Inject constructor(private val covidDateClient: CovidDateClient ){
 
     private val HEADER = "96afa298cbmsh913f910f914494cp110c39jsn01a32d68445e"
-    //todo: como obtener un parametro desde activity o fragment here
 
     suspend fun getCovidData(date:String): DataCovidModel? {
         //thread secundary not interface
@@ -23,7 +22,6 @@ class CovidDateService @Inject constructor(private val covidDateClient: CovidDat
            } catch (e:Throwable){
                null
            }
-
         }
     }
 }

@@ -7,7 +7,6 @@ sealed class StateView<T> {
     data class Success<T>(val data: T): StateView<T>()
     data class Error<T>(val message:String): StateView<T>()
 
-
     companion object {
 
         fun <T> loading(visibility: Int) : StateView<T>{

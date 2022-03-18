@@ -17,11 +17,8 @@ class CovidDateViewModel @Inject constructor(private val getCovidByDateUseCase: 
 
     fun getCovidByDate(date: String){
         viewModelScope.launch (Dispatchers.IO) {
-
             covidStateViewLiveData.postValue(StateView.loading(View.VISIBLE))
             val result = getCovidByDateUseCase.getCovidByDate(date)
-
-           // covidStateViewLiveData.postValue(StateView.loading(View.GONE))
             if(result!=null){
                 covidStateViewLiveData.postValue(StateView.success(result))
             }else{
