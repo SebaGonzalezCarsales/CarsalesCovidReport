@@ -2,12 +2,8 @@ package com.gonzalezcs.coviddatemvvm.data.network
 
 import com.gonzalezcs.coviddatemvvm.data.model.DataCovidModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import javax.inject.Inject
-import kotlin.concurrent.thread
 
 class CovidDateService @Inject constructor(private val covidDateClient: CovidDateClient ){
 
