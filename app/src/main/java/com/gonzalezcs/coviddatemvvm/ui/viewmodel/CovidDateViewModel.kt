@@ -24,9 +24,6 @@ class CovidDateViewModel @Inject constructor(private val getCovidByDateUseCase: 
             }else{
                 covidStateViewLiveData.postValue(StateView.error("Error Api"))
             }
-
         }
     }
-
-
 }
