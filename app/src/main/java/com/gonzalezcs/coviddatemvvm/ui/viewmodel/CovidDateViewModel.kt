@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.gonzalezcs.coviddatemvvm.data.model.DataCovidModel
 import com.gonzalezcs.coviddatemvvm.domain.GetCovidByDateUseCase
 import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
+import com.gonzalezcs.coviddatemvvm.ui.utils.ValueFormatClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,4 +27,6 @@ class CovidDateViewModel @Inject constructor(private val getCovidByDateUseCase: 
             }
         }
     }
+
+
 }

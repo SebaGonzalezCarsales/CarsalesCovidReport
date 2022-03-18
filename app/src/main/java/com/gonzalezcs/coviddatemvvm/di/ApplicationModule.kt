@@ -29,4 +29,5 @@ class ApplicationModule {
     fun provideCovidDateClient(retrofit: Retrofit):CovidDateClient{
         return retrofit.create(CovidDateClient::class.java)
     }
+
 }

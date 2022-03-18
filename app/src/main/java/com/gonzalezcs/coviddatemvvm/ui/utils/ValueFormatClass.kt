@@ -1,4 +1,7 @@
 package com.gonzalezcs.coviddatemvvm.ui.utils
+import com.gonzalezcs.coviddatemvvm.data.model.DataCovidModel
+import com.gonzalezcs.coviddatemvvm.data.model.FormatCalendarObject
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Int as Int1
@@ -8,11 +11,6 @@ This class contains all the functions for string, int or any other value demande
 * */
 class ValueFormatClass {
 
-    data class FormatCalendarObject(
-        var year: Int1,
-        var month: Int1,
-        var day: Int1,
-        var stringDate: String)
     /*
     * @Function: ValueFormatClass
     * @Param: year (Int)
@@ -29,7 +27,7 @@ class ValueFormatClass {
     * @Function: getCalendarInstance
     * @Return: FormatCalendarObject<year, month, day, currentStringDate>
     * */
-    fun getCalendarInstance(formateCalendarObject: FormatCalendarObject?): FormatCalendarObject{
+    fun getCalendarInstance(formateCalendarObject: FormatCalendarObject?): FormatCalendarObject {
         val calendar = Calendar.getInstance()
 
         val year = calendar.get(Calendar.YEAR)
@@ -60,4 +58,5 @@ class ValueFormatClass {
     fun getDateFormatString(calendar: Calendar,format:String):String{
         return SimpleDateFormat(format).format(calendar.time)
     }
+
 }
