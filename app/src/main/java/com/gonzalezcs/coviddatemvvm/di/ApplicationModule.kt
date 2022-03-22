@@ -1,5 +1,8 @@
 package com.gonzalezcs.coviddatemvvm.di
 
+import android.content.Context
+import androidx.room.Room
+import com.gonzalezcs.coviddatemvvm.data.AppDatabase
 import com.gonzalezcs.coviddatemvvm.data.network.CovidDateClient
 import dagger.Module
 import dagger.Provides
@@ -30,4 +33,12 @@ class ApplicationModule {
         return retrofit.create(CovidDateClient::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideDatabaseInstance(context: Context): AppDatabase{
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "calendar-database"
+        ).build()
+    }
 }

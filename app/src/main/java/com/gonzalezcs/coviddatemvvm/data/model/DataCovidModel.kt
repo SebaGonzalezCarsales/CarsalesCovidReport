@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class DataCovidModel (
-    @PrimaryKey @ColumnInfo(name = "date") val date: String?,
+    @PrimaryKey @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "confirmed") val confirmed: Int?,
     @ColumnInfo(name = "deaths") val deaths: Int?
 )

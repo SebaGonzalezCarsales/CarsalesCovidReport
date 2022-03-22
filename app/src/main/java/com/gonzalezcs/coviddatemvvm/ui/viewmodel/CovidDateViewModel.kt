@@ -27,6 +27,4 @@ class CovidDateViewModel @Inject constructor(private val getCovidByDateUseCase: 
             }
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.gonzalezcs.coviddatemvvm.ui.view
 
 import android.app.DatePickerDialog
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,15 +9,20 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.room.Room
 import com.gonzalezcs.coviddatemvvm.MyAppApplication
 import com.gonzalezcs.coviddatemvvm.ui.utils.AnimationViewClass
 import com.gonzalezcs.coviddatemvvm.ui.utils.ValueFormatClass
 import com.gonzalezcs.coviddatemvvm.R
+import com.gonzalezcs.coviddatemvvm.data.AppDatabase
 import com.gonzalezcs.coviddatemvvm.data.model.DataCovidModel
 import com.gonzalezcs.coviddatemvvm.data.model.FormatCalendarObject
 import com.gonzalezcs.coviddatemvvm.databinding.ActivityMainBinding
 import com.gonzalezcs.coviddatemvvm.ui.utils.StateView
 import com.gonzalezcs.coviddatemvvm.ui.viewmodel.CovidDateViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(){
@@ -29,6 +35,10 @@ class MainActivity : AppCompatActivity(){
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
+
         // Make Dagger instantiate @Inject fields in MainnActivity
         (applicationContext as MyAppApplication).applicationComponent.inject(this)
         // Now is available viewModel
@@ -100,7 +110,6 @@ class MainActivity : AppCompatActivity(){
 
     //binding coviddatemodel to view
     private fun bindingCovidElements(covidDateModel:DataCovidModel?){
-
         covidDateModel?.let {
             binding.datacovidmodel = it
         }?: run {
