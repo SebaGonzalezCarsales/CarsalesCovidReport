@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Covid Report</string>
-
-    <string name="casos_confirmados">Casos confirmados</string>
-    <string name="cantidad_de_personas_fallecidas">Cantidad de personas fallecidas</string>
-    <string name="seleccione_una_fecha">Seleccione una fecha</string>
+    <string name="confirmed_cases">Cantidad de Confirmados</string>
+    <string name="confirmed_deaths">Cantidad de Fallecidos</string>
+    <string name="select_date">Seleccione una Fecha</string>
+    <string name="info_not_available">Fecha seleccionada sin información</string>
+    <string name="api_error">Error en la llamada al servidor</string>
 </resources>

@@ -1,15 +1,11 @@
 package com.gonzalezcs.coviddatemvvm.data.model
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity
 data class DataCovidModel (
-    val date: String,
-    val last_update: String,
-    val confirmed: Int,
-    val deaths: Int,
-    val confirmed_diff : Int,
-    val deaths_diff : Int,
-    val recovered : Int,
-    val recovered_diff : Int,
-    val active : Int,
-    val active_diff : Int,
-    val fatality_rate : Float
+    @PrimaryKey @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "confirmed") val confirmed: Int?,
+    @ColumnInfo(name = "deaths") val deaths: Int?
 )
